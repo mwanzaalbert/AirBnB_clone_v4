@@ -1,39 +1,39 @@
 $(document).ready(function () {
-    // Check API status
-    $.get('http://0.0.0.0:5001/api/v1/status/', function (data) {
-        if (data.status === 'OK') {
-            $('#api_status').addClass('available');
-        } else {
-            $('#api_status').removeClass('available');
-        }
-    });
+  // Check API status
+  $.get('http://0.0.0.0:5001/api/v1/status/', function (data) {
+    if (data.status === 'OK') {
+      $('#api_status').addClass('available');
+    } else {
+      $('#api_status').removeClass('available');
+    }
+  });
 
-    // Handle amenity selection (same as 2-hbnb.js)
-    const selectedAmenities = {};
+  // Handle amenity selection (same as 2-hbnb.js)
+  const selectedAmenities = {};
 
-    $('input[type="checkbox"]').change(function () {
-        const amenityId = $(this).attr('data-id');
-        const amenityName = $(this).attr('data-name');
+  $('input[type="checkbox"]').change(function () {
+    const amenityId = $(this).attr('data-id');
+    const amenityName = $(this).attr('data-name');
 
-        if ($(this).is(':checked')) {
-            selectedAmenities[amenityId] = amenityName;
-        } else {
-            delete selectedAmenities[amenityId];
-        }
+    if ($(this).is(':checked')) {
+      selectedAmenities[amenityId] = amenityName;
+    } else {
+      delete selectedAmenities[amenityId];
+    }
 
-        const amenityList = Object.values(selectedAmenities).join(', ');
-        $('.amenities h4').text(amenityList);
-    });
+    const amenityList = Object.values(selectedAmenities).join(', ');
+    $('.amenities h4').text(amenityList);
+  });
 
-    // Fetch and display places
-    $.ajax({
-        url: 'http://0.0.0.0:5001/api/v1/places_search/',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({}),
-        success: function (data) {
-            for (let place of data) {
-                $('section.places').append(`
+  // Fetch and display places
+  $.ajax({
+    url: 'http://0.0.0.0:5001/api/v1/places_search/',
+    type: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify({}),
+    success: function (data) {
+      for (const place of data) {
+        $('section.places').append(`
                     <article>
                         <div class="title_box">
                             <h2>${place.name}</h2>
@@ -49,7 +49,7 @@ $(document).ready(function () {
                         </div>
                     </article>
                 `);
-            }
-        }
-    });
+      }
+    }
+  });
 });
